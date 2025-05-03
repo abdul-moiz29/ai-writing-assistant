@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "b1c2d3e4-f5g6-h7i8-j9k0-l1m2n3o4p5q6",
+		"name": "AI Writing Assistant",
+		"description": "API collection for AI Writing Assistant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\",\n    \"name\": \"Test User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signup",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "signup"]
+						},
+						"description": "Create a new user account"
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"description": "Login with email and password"
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "me"]
+						},
+						"description": "Get current user profile"
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "me"]
+						},
+						"description": "Get user profile"
+					}
+				},
+				{
+					"name": "Update User Credits",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"credits\": 20\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/credits",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "credits"]
+						},
+						"description": "Update user credits"
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+} 

@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './utils/db';
+import routes from './routes';
+import { errorHandler, ApiError } from './middleware/errorHandler';
 
 // Load environment variables
 dotenv.config();
@@ -14,7 +16,10 @@ connectDB();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json());                                                                       
+
+// API routes
+app.use('/api', routes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -22,23 +27,38 @@ app.get('/', (req, res) => {
     message: 'Welcome to AI Writing Assistant API',
     version: '1.0.0',
     endpoints: {
+      auth: '/api/auth',
+      users: '/api/users',
       test: '/api/test'
     }
   });
 });
 
-// Test route
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Hello from the AI Writing Assistant API!' });
+// Error handling middleware
+app.use(errorHandler);
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error: Error) => {
+  console.error('Uncaught Exception:', error);
+  process.exit(1);
 });
 
-// Error handling middleware
-app.use((req, res, next) => {
-  res.status(404).json({ error: 'Route not found' });
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (error: Error) => {
+  console.error('Unhandled Rejection:', error);
+  if (error instanceof ApiError) {
+    // Don't exit for operational errors
+    return;
+  }
+  process.exit(1);
 });
 
 // Start server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log(`API Documentation: http://localhost:${port}`);
-}); 
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+    console.log(`API Documentation: http://localhost:${port}`);
+  });
+}
+
+export { app }; 
