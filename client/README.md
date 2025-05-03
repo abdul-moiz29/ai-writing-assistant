@@ -1,4 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Writing Assistant - Frontend
+
+This is the frontend application for the AI Writing Assistant, built with Next.js and TypeScript.
+
+## Features
+
+- Modern, responsive UI with Tailwind CSS
+- User authentication (login/signup)
+- Protected routes
+- Form validation
+- Error handling
+- Loading states
+
+## Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+- Backend server running on http://localhost:5000
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env.local` file in the root directory with the following content:
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at http://localhost:3000.
+
+## Project Structure
+
+- `src/app/` - Next.js app router pages
+- `src/components/` - Reusable React components
+- `src/context/` - React context providers
+- `src/utils/` - Utility functions and helpers
+- `public/` - Static assets
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Technologies Used
+
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Context API
 
 ## Getting Started
 
