@@ -10,13 +10,15 @@ interface User {
   credits: number;
 }
 
-interface AuthContextType {
+export type AuthContextType = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
-}
+  isAuthenticated: boolean;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -119,7 +121,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     login,
     signup,
-    logout
+    logout,
+    isAuthenticated: !!user,
+    setUser,
   };
 
   return (
