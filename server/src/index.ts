@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './utils/db';
 import routes from './routes';
 import { errorHandler, ApiError } from './middleware/errorHandler';
+import './config/openai.config'; // Import OpenAI config
 
 // Load environment variables
 dotenv.config();
@@ -16,7 +17,12 @@ connectDB();
 
 // Middleware
 app.use(cors());
-app.use(express.json());                                                                       
+
+// Handle raw webhook payloads before JSON parser
+app.use('/api/stripe/webhook', express.raw({ type: 'application/json' }));
+
+// Regular JSON parser for all other routes
+app.use(express.json());
 
 // API routes
 app.use('/api', routes);
@@ -56,8 +62,12 @@ process.on('unhandledRejection', (error: Error) => {
 // Start server
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    console.log(`API Documentation: http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
+    console.log('Environment Variables:', {
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT,
+      GROQ_API_KEY: process.env.GROQ_API_KEY ? 'Set' : 'Missing'
+    });
   });
 }
 

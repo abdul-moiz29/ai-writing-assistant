@@ -17,6 +17,14 @@ export const signup = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Email already registered' });
         }
 
+        // Password validation
+        if (typeof password !== 'string' || password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+        if (!/[A-Z]/.test(password)) {
+            return res.status(400).json({ error: 'Password must contain at least one uppercase letter' });
+        }
+
         // Create new user
         const user = await User.create({ email, password, name });
 
